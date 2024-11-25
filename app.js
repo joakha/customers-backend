@@ -27,7 +27,7 @@ customerApp.use(cors(corsOptions));
 connectToDB(mongoDBURL);
 
 //setup routers
-customerApp.use("/customers", customerRouter);
+customerApp.use("/api/customers", customerRouter);
 
 //finally run app
 customerApp.listen(serverPort, () => console.log(`Backend running and port is ${serverPort}`));

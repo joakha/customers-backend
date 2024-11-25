@@ -12,23 +12,44 @@ const getCustomers = async (req, res) => {
 }
 
 const postCustomer = async (req, res) => {
-
-    return res.send("post route works!");
+    if (!req?.body?.firstname || !req?.body?.lastname || !req?.body?.phone) return res.status(400).json({ "error": "request must include all customer info!" });
+    try {
+        const toBeAddedCustomer = new customerModel({
+            firstname: req.body.firstname,
+            lastname: req.body.lastname,
+            phone: req.body.phone
+        })
+        await toBeAddedCustomer.save();
+        res.status(200).json({ "info": "Customer added successfully!" });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Error adding customer to mongoDB!' });
+    }
 }
 
 const editCustomer = async (req, res) => {
-    return res.send("edit route works!");
+    try {
+        await customerModel.findByIdAndUpdate(req.body._id, {
+            firstname: req.body.firstname,
+            lastname: req.body.lastname,
+            phone: req.body.phone
+        })
+        res.status(200).json({ "info": "Customer edited successfully!" });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Error editing customer info in mongoDB!' });
+    }
 }
 
 const deleteCustomer = async (req, res) => {
     try {
-        if (!req.body.id) return res.status(400).json({"error": "request must include customers id!"});
+        if (!req?.body?.id) return res.status(400).json({ "error": "request must include customer's id!" });
         const toBeDeletedCustomerId = req.body.id;
-        await customerModel.deleteOne({_id: toBeDeletedCustomerId});
-        res.status(200).json({"info": "Deletion successful!"});
+        await customerModel.deleteOne({ _id: toBeDeletedCustomerId });
+        res.status(200).json({ "info": "Deletion successful!" });
     } catch (err) {
         console.error(err);
-        res.status(500).json({ error: 'Error deleting customer from mongoDB' });
+        res.status(500).json({ error: 'Error deleting customer from mongoDB!' });
     }
 }
 
