@@ -2,7 +2,7 @@ import customerModel from "../mongoDB/models/Customer.js";
 
 const getCustomers = async (req, res) => {
     try {
-        const customers = await customerModel.find();
+        const customers = await customerModel.find().populate("company");
         if (!customers) return res.status(204);
         res.status(200).json(customers);
     } catch (err) {
@@ -12,12 +12,12 @@ const getCustomers = async (req, res) => {
 }
 
 const postCustomer = async (req, res) => {
-    if (!req?.body?.firstname || !req?.body?.lastname || !req?.body?.phone) return res.status(400).json({ "error": "request must include all customer info!" });
     try {
         const toBeAddedCustomer = new customerModel({
             firstname: req.body.firstname,
             lastname: req.body.lastname,
-            phone: req.body.phone
+            phone: req.body.phone,
+            company: req.body.company
         })
         await toBeAddedCustomer.save();
         res.status(200).json({ "info": "Customer added successfully!" });

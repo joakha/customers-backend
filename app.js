@@ -3,6 +3,7 @@ import cors from "cors"
 import connectToDB from "./mongoDB/connectToDB.js";
 import dotenv from "dotenv";
 import customerRouter from "./routes/customerRouter.js";
+import companyRouter from "./routes/companyRouter.js";
 
 //making sure environment variables load properly
 dotenv.config()
@@ -28,6 +29,7 @@ connectToDB(mongoDBURL);
 
 //setup routers
 customerApp.use("/api/customers", customerRouter);
+customerApp.use("/api/companies", companyRouter);
 
 //finally run app
 customerApp.listen(serverPort, () => console.log(`Backend running and port is ${serverPort}`));
