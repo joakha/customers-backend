@@ -32,7 +32,8 @@ const editCustomer = async (req, res) => {
         await customerModel.findByIdAndUpdate(req.body._id, {
             firstname: req.body.firstname,
             lastname: req.body.lastname,
-            phone: req.body.phone
+            phone: req.body.phone,
+            company: req.body.company
         })
         res.status(200).json({ "info": "Customer edited successfully!" });
     } catch (err) {
