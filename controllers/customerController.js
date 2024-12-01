@@ -44,7 +44,6 @@ const editCustomer = async (req, res) => {
 
 const deleteCustomer = async (req, res) => {
     try {
-        if (!req?.body?.id) return res.status(400).json({ "error": "request must include customer's id!" });
         const toBeDeletedCustomerId = req.body.id;
         await customerModel.deleteOne({ _id: toBeDeletedCustomerId });
         res.status(200).json({ "info": "Deletion successful!" });

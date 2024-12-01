@@ -4,6 +4,7 @@ import connectToDB from "./mongoDB/connectToDB.js";
 import dotenv from "dotenv";
 import customerRouter from "./routes/customerRouter.js";
 import companyRouter from "./routes/companyRouter.js";
+import userRouter from "./routes/userRouter.js";
 
 //making sure environment variables load properly
 dotenv.config()
@@ -30,6 +31,7 @@ connectToDB(mongoDBURL);
 //setup routers
 customerApp.use("/api/customers", customerRouter);
 customerApp.use("/api/companies", companyRouter);
+customerApp.use("/api/users", userRouter); 
 
 //finally run app
 customerApp.listen(serverPort, () => console.log(`Backend running and port is ${serverPort}`));

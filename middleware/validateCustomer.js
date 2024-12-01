@@ -26,6 +26,11 @@ const validateCustomerPut = (req, res, next) => {
     next();
 }
 
+const validateCustomerDelete = (req, res, next) => {
+    if (!req?.body?.id) return res.status(400).json({ "error": "request must include customer's id!" });
+    next();
+}
+
 const validatePhoneNumberFormat = [
     check('phone')
         .isMobilePhone('fi-FI').withMessage('Invalid phone number format!'),
@@ -38,4 +43,4 @@ const validatePhoneNumberFormat = [
     }
 ];
 
-export { validateCustomerPost, validateCustomerPut, validatePhoneNumberFormat }
+export { validateCustomerPost, validateCustomerPut, validatePhoneNumberFormat, validateCustomerDelete }

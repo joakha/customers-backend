@@ -1,13 +1,14 @@
 import express from "express";
-import { validateCustomerPost, validateCustomerPut, validatePhoneNumberFormat } from "../middleware/validateCustomer.js";
+import { validateCustomerDelete, validateCustomerPost, validateCustomerPut, validatePhoneNumberFormat } from "../middleware/validateCustomer.js";
 import { getCustomers, postCustomer, editCustomer, deleteCustomer } from "../controllers/customerController.js";
+import { validateJWT } from "../middleware/validateLogin.js";
 
 const customerRouter = express.Router();
 
 customerRouter.route("/")
     .get(getCustomers)
-    .post(validateCustomerPost, validatePhoneNumberFormat, postCustomer)
+    .post(validateJWT, validateCustomerPost, validatePhoneNumberFormat, postCustomer)
     .put(validateCustomerPut, validatePhoneNumberFormat, editCustomer)
-    .delete(deleteCustomer)
+    .delete(validateCustomerDelete, deleteCustomer)
 
 export default customerRouter
